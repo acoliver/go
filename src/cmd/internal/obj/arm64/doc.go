@@ -46,6 +46,9 @@ Examples:
 	VADD V5.H8, V18.H8, V9.H8         <=>      add v9.8h, v18.8h, v5.8h
 	VLD1.P (R6)(R11), [V31.D1]        <=>      ld1 {v31.1d}, [x6], x11
 	VFMLA V29.S2, V20.S2, V14.S2      <=>      fmla v14.2s, v20.2s, v29.2s
+	VFADD V5.S2, V18.S2, V9.S2        <=>      fadd v9.2s, v18.2s, v5.2s
+	VFMUL V5.S2, V18.S2, V9.S2        <=>      fmul v9.2s, v18.2s, v5.2s
+	VFMA V5.S2, V18.S2, V9.S2         <=>      fmla v9.2s, v18.2s, v5.2s
 	AESD V22.B16, V19.B16             <=>      aesd v19.16b, v22.16b
 	SCVTFWS R3, F16                   <=>      scvtf s17, w6
 
