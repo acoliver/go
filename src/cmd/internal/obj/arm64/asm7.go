@@ -505,6 +505,9 @@ var optab = []Optab{
 	{AVDUP, C_ZREG, C_NONE, C_NONE, C_ARNG, C_NONE, 82, 4, 0, 0, 0},
 	{AVMOVI, C_ADDCON, C_NONE, C_NONE, C_ARNG, C_NONE, 86, 4, 0, 0, 0},
 	{AVFMLA, C_ARNG, C_ARNG, C_NONE, C_ARNG, C_NONE, 72, 4, 0, 0, 0},
+	{AVFADD, C_ARNG, C_ARNG, C_NONE, C_ARNG, C_NONE, 72, 4, 0, 0, 0},
+	{AVFMUL, C_ARNG, C_ARNG, C_NONE, C_ARNG, C_NONE, 72, 4, 0, 0, 0},
+	{AVFMA,  C_ARNG, C_ARNG, C_NONE, C_ARNG, C_NONE, 72, 4, 0, 0, 0},
 	{AVEXT, C_VCON, C_ARNG, C_ARNG, C_ARNG, C_NONE, 94, 4, 0, 0, 0},
 	{AVTBL, C_ARNG, C_NONE, C_LIST, C_ARNG, C_NONE, 100, 4, 0, 0, 0},
 	{AVUSHR, C_VCON, C_ARNG, C_NONE, C_ARNG, C_NONE, 95, 4, 0, 0, 0},
@@ -3234,6 +3237,18 @@ func buildop(ctxt *obj.Link) {
 
 		case AVFMLA:
 			oprangeset(AVFMLS, t)
+
+		case AVFADD:
+			// No additional oprangeset calls needed
+			break
+
+		case AVFMUL:
+			// No additional oprangeset calls needed
+			break
+
+		case AVFMA:
+			// No additional oprangeset calls needed
+			break
 
 		case AVPMULL:
 			oprangeset(AVPMULL2, t)
@@ -6477,6 +6492,15 @@ func (c *ctxt7) oprrr(p *obj.Prog, a obj.As, rd, rn, rm int16) uint32 {
 
 	case AVFMLA:
 		op = 7<<25 | 0<<23 | 1<<21 | 3<<14 | 3<<10
+
+	case AVFMA:
+		op = 7<<25 | 0<<23 | 0x320000 | 3<<14 | 3<<10
+
+	case AVFMUL:
+		op = 7<<25 | 1<<31 | 0<<23 | 0x310000 | 3<<14 | 3<<10
+
+	case AVFADD:
+		op = 7<<25 | 0<<23 | 0x300000 | 3<<14 | 3<<10
 
 	case AVFMLS:
 		op = 7<<25 | 1<<23 | 1<<21 | 3<<14 | 3<<10
