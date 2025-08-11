@@ -61,7 +61,3 @@ func TestMOVK(t *testing.T) {
 		t.Errorf("Got %x want %x\n", x, want)
 	}
 }
-
-func testvfadd() (uint64, uint64)
-func testvfmul() (uint64, uint64)
-func testvfma() (uint64, uint64)
