@@ -35,9 +35,9 @@ TEXT ·testvmovq(SB), NOSPLIT, $0-16
 TEXT ·testvfadd(SB), NOSPLIT, $0-16
 	VMOVD   $0x4000000000000000, V0    // 2.0 double
 	VMOVD   $0x4010000000000000, V1    // 4.0 double
-	VFADD   V0.D2, V1.D2, V2.D2
-	VMOV    V2.D[0], R0
-	VMOV    V2.D[1], R1
+	VFADD   V0.D2, V1.D2, V0.D2       // V0 = V0 + V1 = 2.0 + 4.0 = 6.0
+	VMOV    V0.D[0], R0
+	VMOV    V0.D[1], R1
 	MOVD    R0, ret+0(FP)
 	MOVD    R1, ret1+8(FP)
 	RET
