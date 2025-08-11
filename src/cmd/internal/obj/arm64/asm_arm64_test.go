@@ -33,10 +33,10 @@ func TestVMOV(t *testing.T) {
 
 func TestSIMD(t *testing.T) {
 	tests := []struct {
-		op        string
-		testFunc  func() (uint64, uint64)
-		wantA     uint64
-		wantB     uint64
+		op       string
+		testFunc func() (uint64, uint64)
+		wantA    uint64
+		wantB    uint64
 	}{
 		{"VFADD", testvfadd, 0x4018000000000000, 0}, // 2.0 + 4.0 = 6.0
 		{"VFMUL", testvfmul, 0x4020000000000000, 0}, // 2.0 * 4.0 = 8.0
