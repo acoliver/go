@@ -4783,6 +4783,15 @@ func (c *ctxt7) asmout(p *obj.Prog, out []uint32) (count int) {
 			}
 			size = 0
 			Q = 0
+		case AVFADD, AVFMUL, AVFMA:
+			if af != ARNG_2D && af != ARNG_2S && af != ARNG_4S {
+				c.ctxt.Diag("invalid arrangement: %v", p)
+			}
+			if af == ARNG_2D {
+				size = 1
+			} else {
+				size = 0
+			}
 		}
 
 		o1 = c.oprrr(p, p.As, p.To.Reg, p.Reg, p.From.Reg)
