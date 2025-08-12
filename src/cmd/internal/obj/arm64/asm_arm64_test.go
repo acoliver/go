@@ -57,4 +57,3 @@ func TestMOVK(t *testing.T) {
 		t.Errorf("Got %x want %x\n", x, want)
 	}
 }
-}
