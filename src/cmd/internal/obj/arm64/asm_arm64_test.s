@@ -31,6 +31,17 @@ TEXT ·testvmovq(SB), NOSPLIT, $0-16
 	MOVD    R1, r2+8(FP)
 	RET
 
+// testvfmul() (r1, r2 uint64)
+TEXT ·testvfmul(SB), NOSPLIT, $0-16
+	VMOVD   $0x4000000000000000, V0    // 2.0 double
+	VMOVD   $0x4010000000000000, V1    // 4.0 double
+	VFMUL   V0.D2, V1.D2, V2
+	VMOV    V2.D[0], R0
+	VMOV    V2.D[1], R1
+	MOVD    R0, r1+0(FP)
+	MOVD    R1, r2+8(FP)
+	RET
+
 // testmovk() uint64
 TEXT ·testmovk(SB), NOSPLIT, $0-8
 	MOVD	$0, R0

@@ -9,6 +9,7 @@ import "testing"
 func testvmovs() (r1, r2 uint64)
 func testvmovd() (r1, r2 uint64)
 func testvmovq() (r1, r2 uint64)
+func testvfmul() (r1, r2 uint64)
 
 func TestVMOV(t *testing.T) {
 	tests := []struct {
@@ -28,6 +29,24 @@ func TestVMOV(t *testing.T) {
 	}
 }
 
+func TestSIMD(t *testing.T) {
+	tests := []struct {
+		op        string
+		testFunc  func() (uint64, uint64)
+		wantA     uint64
+		wantB     uint64
+	}{
+		{"VFMUL", testvfmul, 0x4020000000000000, 0}, // 2.0 * 4.0 = 8.0
+	}
+	for _, test := range tests {
+		gotA, gotB := test.testFunc()
+		// Using approximate equality since floating point operations might be imprecise
+		if gotA != test.wantA || gotB != test.wantB {
+			t.Errorf("%v: got: a=0x%x, b=0x%x, want: a=0x%x, b=0x%x", test.op, gotA, gotB, test.wantA, test.wantB)
+		}
+	}
+}
+
 func testmovk() uint64
 
 // TestMOVK makes sure MOVK with a very large constant works. See issue 52261.
@@ -37,4 +56,5 @@ func TestMOVK(t *testing.T) {
 	if x != want {
 		t.Errorf("Got %x want %x\n", x, want)
 	}
+}
 }

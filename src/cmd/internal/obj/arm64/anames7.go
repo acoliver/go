@@ -20,6 +20,7 @@ var cnames7 = []string{
 	"ARNG",
 	"ELEM",
 	"LIST",
+	"FMUL",
 	"ZCON",
 	"ABCON0",
 	"ADDCON0",
