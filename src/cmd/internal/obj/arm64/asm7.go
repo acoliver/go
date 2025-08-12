@@ -6557,7 +6557,7 @@ func (c *ctxt7) oprrr(p *obj.Prog, a obj.As, rd, rn, rm int16) uint32 {
 		op = 7<<25 | 0<<23 | 1<<21 | 0xF400 | 3<<10
 
 	case AVFMUL:
-		op = 0x4F00235F
+		op = 7<<25 | 0<<23 | 1<<21 | 0x8000 | 3<<10
 
 	case AVFADD:
 		op = 7<<25 | 0<<23 | 1<<21 | 0<<15 | 3<<10
