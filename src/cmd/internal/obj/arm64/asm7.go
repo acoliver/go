@@ -509,6 +509,10 @@ var optab = []Optab{
 	{AVFMA, C_ARNG, C_ARNG, C_NONE, C_ARNG, C_NONE, 72, 4, 0, 0, 0},
 	{AVFMLA, C_ARNG, C_ARNG, C_NONE, C_ARNG, C_NONE, 72, 4, 0, 0, 0},
 	{AVFDIV, C_ARNG, C_ARNG, C_NONE, C_ARNG, C_NONE, 72, 4, 0, 0, 0},
+	{AVABS, C_ARNG, C_NONE, C_NONE, C_ARNG, C_NONE, 72, 4, 0, 0, 0},
+	{AVFNEG, C_ARNG, C_NONE, C_NONE, C_ARNG, C_NONE, 72, 4, 0, 0, 0},
+	{AVFMAX, C_ARNG, C_ARNG, C_NONE, C_ARNG, C_NONE, 72, 4, 0, 0, 0},
+	{AVFMIN, C_ARNG, C_ARNG, C_NONE, C_ARNG, C_NONE, 72, 4, 0, 0, 0},
 	{AVEXT, C_VCON, C_ARNG, C_ARNG, C_ARNG, C_NONE, 94, 4, 0, 0, 0},
 	{AVTBL, C_ARNG, C_NONE, C_LIST, C_ARNG, C_NONE, 100, 4, 0, 0, 0},
 	{AVUSHR, C_VCON, C_ARNG, C_NONE, C_ARNG, C_NONE, 95, 4, 0, 0, 0},
@@ -3248,6 +3252,42 @@ func buildop(ctxt *obj.Link) {
 			break
 
 		case AVFDIV:
+			// No additional oprangeset calls needed
+			break
+
+		case VFABS:
+			// Alias of AVABS
+			oprangeset(AVABS, t)
+			break
+
+		case AVABS:
+			// No additional oprangeset calls needed
+			break
+
+		case VFNEG:
+			// Alias of AVFNEG
+			oprangeset(AVFNEG, t)
+			break
+
+		case AVFNEG:
+			// No additional oprangeset calls needed
+			break
+
+		case VFMAX:
+			// Alias of AVFMAX
+			oprangeset(AVFMAX, t)
+			break
+
+		case AVFMAX:
+			// No additional oprangeset calls needed
+			break
+
+		case VFMIN:
+			// Alias of AVFMIN
+			oprangeset(AVFMIN, t)
+			break
+
+		case AVFMIN:
 			// No additional oprangeset calls needed
 			break
 
@@ -6499,6 +6539,18 @@ func (c *ctxt7) oprrr(p *obj.Prog, a obj.As, rd, rn, rm int16) uint32 {
 
 	case AVFDIV:
 		op = 7<<25 | 0<<23 | 1<<21 | 3<<15 | 3<<10
+
+	case AVABS:
+		op = 7<<25 | 0<<23 | 1<<21 | 0x2000 | 3<<10
+
+	case AVFNEG:
+		op = 7<<25 | 0<<23 | 1<<21 | 0xA000 | 3<<10
+
+	case AVFMAX:
+		op = 0x0E20F400
+
+	case AVFMIN:
+		op = 0x0EA0F400
 
 	case AVFMUL:
 		op = 0x4F00235F
