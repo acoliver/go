@@ -2227,10 +2227,12 @@ func (c *ctxt7) aclass(a *obj.Addr) int {
 }
 
 func (c *ctxt7) oplook(p *obj.Prog) *Optab {
+	fmt.Printf("oplook called for %v (instruction ID %d)\n", p.As, p.As&obj.AMask)
 	a1 := int(p.Optab)
 	if a1 != 0 {
 		return &optab[a1-1]
 	}
+
 	a1 = int(p.From.Class)
 	if a1 == 0 {
 		a1 = c.aclass(&p.From)
@@ -2307,7 +2309,7 @@ func (c *ctxt7) oplook(p *obj.Prog) *Optab {
 		}
 	}
 
-	if false {
+	if true {
 		fmt.Printf("oplook %v %d %d %d %d %d\n", p.As, a1, a2, a3, a4, a5)
 		fmt.Printf("\t\t%d %d\n", p.From.Type, p.To.Type)
 	}
@@ -2320,6 +2322,8 @@ func (c *ctxt7) oplook(p *obj.Prog) *Optab {
 	c5 := &xcmp[a5]
 	for i := range ops {
 		op := &ops[i]
+		fmt.Printf("Checking op %d a1=%d a2=%d a3=%d a4=%d a5=%d against %d %d %d %d %d\n", 
+			i, a1, a2, a3, a4, a5, op.a1, op.a2, op.a3, op.a4, op.a5)
 		if c1[op.a1] && c2[op.a2] && c3[op.a3] && c4[op.a4] && c5[op.a5] && p.Scond == op.scond {
 			p.Optab = uint16(cap(optab) - cap(ops) + i + 1)
 			return op
@@ -6547,10 +6551,10 @@ func (c *ctxt7) oprrr(p *obj.Prog, a obj.As, rd, rn, rm int16) uint32 {
 		op = 7<<25 | 0<<23 | 1<<21 | 0xA000 | 3<<10
 
 	case AVFMAX:
-		op = 0x0E20F400
+		op = 7<<25 | 0<<23 | 1<<21 | 0xF000 | 3<<10
 
 	case AVFMIN:
-		op = 0x0EA0F400
+		op = 7<<25 | 0<<23 | 1<<21 | 0xF400 | 3<<10
 
 	case AVFMUL:
 		op = 0x4F00235F
