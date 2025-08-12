@@ -508,6 +508,7 @@ var optab = []Optab{
 	{AVFMUL, C_ARNG, C_ARNG, C_NONE, C_ARNG, C_NONE, 72, 4, 0, 0, 0},
 	{AVFMA, C_ARNG, C_ARNG, C_NONE, C_ARNG, C_NONE, 72, 4, 0, 0, 0},
 	{AVFMLA, C_ARNG, C_ARNG, C_NONE, C_ARNG, C_NONE, 72, 4, 0, 0, 0},
+	{AVFDIV, C_ARNG, C_ARNG, C_NONE, C_ARNG, C_NONE, 72, 4, 0, 0, 0},
 	{AVEXT, C_VCON, C_ARNG, C_ARNG, C_ARNG, C_NONE, 94, 4, 0, 0, 0},
 	{AVTBL, C_ARNG, C_NONE, C_LIST, C_ARNG, C_NONE, 100, 4, 0, 0, 0},
 	{AVUSHR, C_VCON, C_ARNG, C_NONE, C_ARNG, C_NONE, 95, 4, 0, 0, 0},
@@ -3240,6 +3241,15 @@ func buildop(ctxt *obj.Link) {
 			oprangeset(AVFMUL, t)
 			oprangeset(AVFMA, t)
 			oprangeset(AVFMLS, t)
+
+		case VFDIV:
+			// Alias of AVFDIV
+			oprangeset(AVFDIV, t)
+			break
+
+		case AVFDIV:
+			// No additional oprangeset calls needed
+			break
 
 		case AVPMULL:
 			oprangeset(AVPMULL2, t)
@@ -6486,6 +6496,9 @@ func (c *ctxt7) oprrr(p *obj.Prog, a obj.As, rd, rn, rm int16) uint32 {
 
 	case AVFMA:
 		op = 7<<25 | 0<<23 | 1<<21 | 9<<14 | 3<<10
+
+	case AVFDIV:
+		op = 7<<25 | 0<<23 | 1<<21 | 3<<15 | 3<<10
 
 	case AVFMUL:
 		op = 0x4F00235F
